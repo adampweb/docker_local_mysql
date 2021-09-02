@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  mysql:
+    image: localhost:5000/mysql:5.7.35
+    hostname: mysql.dev.home
+    networks:
+      devnet:
+        ipv4_address: 172.18.0.4
+    container_name: mysql
+    volumes:
+      - ./config:/etc/mysql/conf.d
+    env_file:
+      - vars.env
+    ports:
+      - 3306:3306
+    restart: always
+    
+networks:
+  devnet:
+    external: true
