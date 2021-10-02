@@ -2,7 +2,7 @@ version: "3.8"
 services:
   mysql:
     image: localhost:5000/mysql:5.7.35
-    hostname: mysql.dev.home
+    hostname: db.dev.home
     networks:
       devnet:
         ipv4_address: 172.18.0.4
@@ -14,6 +14,32 @@ services:
     ports:
       - 3306:3306
     restart: always
+
+  phpmyadmin_php:
+    image: localhost:5000/php:8.0.10-fpm-buster
+    networks:
+      devnet:
+        ipv4_address: 172.18.0.6
+    container_name: phpmyadmin_php
+    volumes:
+      - ./www/:/var/www/html/
+      - ./config/php.ini:/usr/local/etc/php/php.ini
+
+  phpmyadmin_nginx:
+    image: localhost:5000/nginx:1.21.1
+    networks:
+      devnet:
+        ipv4_address: 172.18.0.5
+    container_name: phpmyadmin_nginx
+    hostname: phpmyadmin.dev.home
+    links:
+      - phpmyadmin_php
+    volumes:
+      - /media/adam/DOCKER/BASIC_IMAGES/OPENSSL_CERTS/:/etc/nginx/ssl/
+      - ./config/www.conf:/etc/nginx/conf.d/default.conf
+      - ./www/:/var/www/html/
+      - ./config.inc.php:/var/www/html/
+
     
 networks:
   devnet:

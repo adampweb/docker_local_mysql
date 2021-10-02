@@ -7,3 +7,5 @@
 out
 gen
 /vars.env
+/www/
+/config/config.inc.php
