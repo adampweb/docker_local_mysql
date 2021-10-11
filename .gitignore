@@ -9,3 +9,5 @@ gen
 /vars.env
 /www/
 /config/config.inc.php
+/mysql_data/
+/phpmyadmin_data/
